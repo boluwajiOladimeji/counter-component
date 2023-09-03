@@ -10,24 +10,20 @@ import {
 function App() {
   const [count, setCount] = useState(0);
 
-  const handlePlusOne = () => {
-    setCount((count) => count + 1);
-  };
-
-  const handlePlusTen = () => {
-    setCount((count) => count + 10);
-  };
-
-  const handleMinusOne = () => {
-    setCount((count) => count - 1);
-  };
-
-  const handleMinusTen = () => {
-    setCount((count) => count - 10);
-  };
-
-  const handleRandomNumber = () => {
-    setCount(Math.floor(Math.random() * 100) + 1);
+  const handleOperation = (type, num) => {
+    if (!type) {
+      setCount(0);
+      return;
+    }
+    if (type === 'plus') {
+      setCount((count) => count + num);
+    }
+    if (type === 'minus') {
+      setCount((count) => count - num);
+    }
+    if (type === 'random') {
+      setCount(Math.floor(Math.random() * 100) + 1);
+    }
   };
 
   useEffect(
@@ -55,24 +51,24 @@ function App() {
           {count}
         </h2>
         <div className='flex gap-2'>
-          <button className='btn-bg' onClick={handlePlusOne}>
+          <Button type='plus' num={1} onPerformOperation={handleOperation}>
             <ChevronUp size={20} />
-          </button>
-          <button className='btn-bg' onClick={handlePlusTen}>
+          </Button>
+          <Button type='plus' num={10} onPerformOperation={handleOperation}>
             <ChevronsUp size={20} />
-          </button>
-          <button className='btn-bg' onClick={() => setCount(0)}>
+          </Button>
+          <Button onPerformOperation={handleOperation}>
             <RotateCcw size={20} />
-          </button>
-          <button className='btn-bg' onClick={handleRandomNumber}>
+          </Button>
+          <Button type='random' onPerformOperation={handleOperation}>
             <Hash size={20} />
-          </button>
-          <button className='btn-bg'>
-            <ChevronsDown size={20} onClick={handleMinusTen} />
-          </button>
-          <button className='btn-bg'>
-            <ChevronDown size={20} onClick={handleMinusOne} />
-          </button>
+          </Button>
+          <Button type='minus' num={10} onPerformOperation={handleOperation}>
+            <ChevronsDown size={20} />
+          </Button>
+          <Button type='minus' num={1} onPerformOperation={handleOperation}>
+            <ChevronDown size={20} />
+          </Button>
         </div>
       </div>
     </div>
@@ -80,3 +76,11 @@ function App() {
 }
 
 export default App;
+
+function Button({ children, num, type, onPerformOperation }) {
+  return (
+    <button className='btn-bg' onClick={() => onPerformOperation(type, num)}>
+      {children}
+    </button>
+  );
+}
