@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ChevronDown,
   ChevronUp,
@@ -29,6 +29,15 @@ function App() {
   const handleRandomNumber = () => {
     setCount(Math.floor(Math.random() * 100) + 1);
   };
+
+  useEffect(
+    function () {
+      document.title = `Count : ${count}`;
+
+      return () => (document.title = `Count`);
+    },
+    [count]
+  );
 
   return (
     <div className='min-h-screen bg-pink-400 flex items-center justify-center'>
